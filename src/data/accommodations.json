@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "El Nido Cove Garden Resort",
+    "location": "El Nido, Palawan",
+    "price_per_night": 4500,
+    "rating": 4.8,
+    "tier": "Luxury",
+    "amenities": ["WiFi", "Pool", "Restaurant", "AC", "Beach Access"],
+    "image_gradient": "from-cyan-400 to-blue-600",
+    "description": "Nestled among limestone cliffs with breathtaking views of Bacuit Bay."
+  },
+  {
+    "id": 2,
+    "name": "Boracay Sands Boutique Hotel",
+    "location": "Station 2, Boracay, Aklan",
+    "price_per_night": 3200,
+    "rating": 4.6,
+    "tier": "Mid-range",
+    "amenities": ["WiFi", "Pool", "Restaurant", "AC", "Beachfront"],
+    "image_gradient": "from-yellow-300 to-orange-400",
+    "description": "Stylish rooms just steps from White Beach with stunning sunset views."
+  },
+  {
+    "id": 3,
+    "name": "Siargao Surf & Stay Hostel",
+    "location": "General Luna, Siargao, Surigao del Norte",
+    "price_per_night": 850,
+    "rating": 4.5,
+    "tier": "Budget",
+    "amenities": ["WiFi", "Surfboard Rental", "Common Kitchen", "Fan Rooms"],
+    "image_gradient": "from-emerald-400 to-teal-600",
+    "description": "The ultimate surfer's hangout steps from Cloud 9 break."
+  },
+  {
+    "id": 4,
+    "name": "Bohol Peacock Garden",
+    "location": "Panglao Island, Bohol",
+    "price_per_night": 6800,
+    "rating": 4.9,
+    "tier": "Luxury",
+    "amenities": ["WiFi", "Pool", "Spa", "Restaurant", "AC", "Private Beach"],
+    "image_gradient": "from-amber-400 to-green-600",
+    "description": "Award-winning eco-luxury resort on a pristine Panglao beachfront."
+  },
+  {
+    "id": 5,
+    "name": "Vigan Heritage Inn",
+    "location": "Calle Crisologo, Vigan, Ilocos Sur",
+    "price_per_night": 2100,
+    "rating": 4.6,
+    "tier": "Mid-range",
+    "amenities": ["WiFi", "AC", "Breakfast Included", "Heritage Tour"],
+    "image_gradient": "from-orange-400 to-amber-600",
+    "description": "Stay in a restored 18th-century ancestral house in the UNESCO heritage zone."
+  },
+  {
+    "id": 6,
+    "name": "Batanes Honesty Coffee Shop Inn",
+    "location": "Basco, Batanes",
+    "price_per_night": 1400,
+    "rating": 4.7,
+    "tier": "Budget",
+    "amenities": ["WiFi", "Fan Rooms", "Breakfast", "Tour Assistance"],
+    "image_gradient": "from-green-400 to-emerald-700",
+    "description": "Cozy inn run by a local Ivatan family with stunning rolling hills views."
+  }
+]

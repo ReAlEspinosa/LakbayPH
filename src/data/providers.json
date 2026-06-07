@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "name": "Mabilis Roadside Services",
+    "service": "Flat Tire",
+    "distance": "1.2 km",
+    "eta": "8 mins",
+    "rating": 4.8,
+    "phone": "+63 917 123 4567",
+    "available": true,
+    "logo": "MR"
+  },
+  {
+    "id": 2,
+    "name": "AutoSafe Philippines",
+    "service": "Dead Battery",
+    "distance": "2.5 km",
+    "eta": "14 mins",
+    "rating": 4.6,
+    "phone": "+63 918 234 5678",
+    "available": true,
+    "logo": "AS"
+  },
+  {
+    "id": 3,
+    "name": "Daan Masters Towing",
+    "service": "Towing",
+    "distance": "3.8 km",
+    "eta": "21 mins",
+    "rating": 4.7,
+    "phone": "+63 919 345 6789",
+    "available": true,
+    "logo": "DM"
+  },
+  {
+    "id": 4,
+    "name": "SOS Rescue & Fuel",
+    "service": "Fuel Delivery",
+    "distance": "0.9 km",
+    "eta": "6 mins",
+    "rating": 4.9,
+    "phone": "+63 920 456 7890",
+    "available": true,
+    "logo": "SR"
+  }
+]

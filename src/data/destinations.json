@@ -1,0 +1,444 @@
+[
+  {
+    "id": "el-nido",
+    "name": "El Nido",
+    "province": "Palawan",
+    "region": "MIMAROPA",
+    "rating": 4.9,
+    "reviews": 3842,
+    "tags": ["Beach", "Island Hopping", "Snorkeling", "Kayaking"],
+    "badge": "Popular",
+    "gradient": "from-cyan-400 to-blue-600",
+    "description": "El Nido is a breathtaking municipality in northern Palawan, home to stunning limestone karst formations, crystal-clear lagoons, and some of the most pristine coral reefs in the world. Its dramatic seascape of towering cliffs and turquoise waters makes it a bucket-list destination for travelers worldwide.",
+    "bestTime": "November to May (dry season)",
+    "entryFee": "₱200 environmental fee per tour",
+    "directions": [
+      {"mode": "plane", "detail": "Fly from Manila (NAIA) to El Nido Airport — 1.5 hours. Airlines: AirSwift (direct). Alternatively fly to Puerto Princesa then take a 5-6 hour van/bus."},
+      {"mode": "bus", "detail": "From Puerto Princesa: Take a van or bus bound for El Nido. Journey takes 5-6 hours via the scenic Palawan highway."},
+      {"mode": "ferry", "detail": "From Coron: Fast boat service takes about 4 hours depending on weather conditions."}
+    ],
+    "reviews_list": [
+      {"name": "Maria Santos", "initials": "MS", "rating": 5, "comment": "Absolutely magical! The Big Lagoon Tour A was unforgettable. Crystal clear water and limestone cliffs everywhere.", "date": "March 2025"},
+      {"name": "James Reyes", "initials": "JR", "rating": 5, "comment": "Best snorkeling spot I've ever been to. The coral reefs are pristine. Book your tours early!", "date": "February 2025"},
+      {"name": "Ana Villanueva", "initials": "AV", "rating": 4, "comment": "Beautiful destination but gets crowded during peak season. Go early morning for tours.", "date": "January 2025"}
+    ],
+    "tips": [
+      "Book island-hopping tours (Tour A–D) early — they sell out fast during peak season.",
+      "Bring reef-safe sunscreen only; chemical sunscreens are banned in many marine sanctuaries.",
+      "Stay in the town proper for more affordable accommodation and restaurant options.",
+      "Rent a motorbike to explore Nacpan Beach and other mainland spots.",
+      "Bring cash — ATMs are limited and sometimes run out during peak season."
+    ],
+    "lat": 11.1760,
+    "lng": 119.4079,
+    "nearby": ["coron", "tubbataha", "port-barton"]
+  },
+  {
+    "id": "coron",
+    "name": "Coron",
+    "province": "Palawan",
+    "region": "MIMAROPA",
+    "rating": 4.8,
+    "reviews": 2965,
+    "tags": ["Diving", "Wreck Diving", "Beach", "Lake"],
+    "badge": "Popular",
+    "gradient": "from-teal-400 to-cyan-700",
+    "description": "Coron is world-renowned for its Japanese WWII shipwrecks that have become spectacular artificial reefs. Beyond diving, Coron offers stunning Kayangan Lake — considered one of the cleanest lakes in Asia — along with white-sand beaches and vibrant marine life.",
+    "bestTime": "November to May",
+    "entryFee": "₱250 Coron town fee + individual attraction fees",
+    "directions": [
+      {"mode": "plane", "detail": "Fly from Manila (NAIA) to Busuanga Airport — 1 hour 15 minutes. Airlines: Cebu Pacific, Philippine Airlines."},
+      {"mode": "bus", "detail": "Transfer from Busuanga Airport to Coron town via shared van takes about 45 minutes."},
+      {"mode": "ferry", "detail": "2GO Travel ferry from Manila Port to Coron — 12 hours overnight trip."}
+    ],
+    "reviews_list": [
+      {"name": "Carlo Mendoza", "initials": "CM", "rating": 5, "comment": "Kayangan Lake is unlike anything I've seen. The turquoise water is surreal!", "date": "April 2025"},
+      {"name": "Sophia Lee", "initials": "SL", "rating": 5, "comment": "The wreck diving here is world-class. Maru Wreck was incredible.", "date": "March 2025"},
+      {"name": "Renzo Aguilar", "initials": "RA", "rating": 4, "comment": "Twin Lagoon is gorgeous. Bring fins to swim through the rocks!", "date": "January 2025"}
+    ],
+    "tips": [
+      "Kayangan Lake requires a short hike — wear proper footwear.",
+      "PADI certification is recommended for wreck diving; discover scuba also available.",
+      "Barracuda Lake is excellent for thermocline diving experiences.",
+      "Visit during weekdays to avoid weekend crowds from Puerto Princesa.",
+      "Bring waterproof bags for your belongings on island-hopping boats."
+    ],
+    "lat": 11.9985,
+    "lng": 120.2037,
+    "nearby": ["el-nido", "tubbataha", "port-barton"]
+  },
+  {
+    "id": "boracay",
+    "name": "Boracay",
+    "province": "Aklan",
+    "region": "Western Visayas",
+    "rating": 4.7,
+    "reviews": 5621,
+    "tags": ["Beach", "Nightlife", "Water Sports", "Sunset"],
+    "badge": "Popular",
+    "gradient": "from-yellow-300 to-orange-400",
+    "description": "Boracay's White Beach — a 4-kilometer stretch of powdery white sand — is consistently ranked among the world's best beaches. After a successful rehabilitation in 2018, the island now balances world-class tourism with environmental stewardship.",
+    "bestTime": "November to April (Amihan season)",
+    "entryFee": "₱75 terminal fee + ₱100 environmental fee",
+    "directions": [
+      {"mode": "plane", "detail": "Fly from Manila to Caticlan (Godofredo Ramos) Airport — 1 hour. Airlines: Cebu Pacific, Philippine Airlines, AirAsia."},
+      {"mode": "ferry", "detail": "Take a short 10-minute pump boat from Caticlan Jetty Port to Cagban Jetty Port in Boracay."},
+      {"mode": "bus", "detail": "Alternatively fly to Kalibo Airport (cheaper fares), then take a 2-hour bus to Caticlan Jetty Port."}
+    ],
+    "reviews_list": [
+      {"name": "Lea Fernandez", "initials": "LF", "rating": 5, "comment": "White Beach at sunset is magical. The post-rehabilitation Boracay is much cleaner!", "date": "April 2025"},
+      {"mode": "ferry", "name": "Marco Tan", "initials": "MT", "rating": 4, "comment": "Amazing beach but can be crowded. Go to Puka Shell Beach for a quieter vibe.", "date": "March 2025"},
+      {"name": "Clarisse Ong", "initials": "CO", "rating": 5, "comment": "Parasailing, helmet diving, paraw sailing — so many activities! Loved every bit.", "date": "February 2025"}
+    ],
+    "tips": [
+      "Avoid visiting during Habagat (June-October) as seas can be rough.",
+      "Station 2 White Beach is the lively center; Station 3 is quieter and more budget-friendly.",
+      "Book a paraw (traditional sailboat) for the iconic Boracay sunset.",
+      "Puka Shell Beach on the north is less crowded and equally beautiful.",
+      "Pre-book your accommodation during Holy Week and Christmas as the island gets fully booked."
+    ],
+    "lat": 11.9674,
+    "lng": 121.9248,
+    "nearby": ["siargao", "bohol", "cebu-oslob"]
+  },
+  {
+    "id": "siargao",
+    "name": "Siargao Island",
+    "province": "Surigao del Norte",
+    "region": "Caraga",
+    "rating": 4.8,
+    "reviews": 3201,
+    "tags": ["Surfing", "Beach", "Island Life", "Lagoon"],
+    "badge": "Trending",
+    "gradient": "from-emerald-400 to-teal-600",
+    "description": "Known as the 'Surfing Capital of the Philippines,' Siargao's Cloud 9 break is internationally recognized. Beyond surfing, the island offers enchanting lagoons, mangrove forests, and a laid-back island vibe that has made it a favorite among digital nomads and adventure seekers.",
+    "bestTime": "August to November (surf season); March to May (clear water)",
+    "entryFee": "No general entry fee; individual attraction fees apply",
+    "directions": [
+      {"mode": "plane", "detail": "Fly from Manila (NAIA) or Cebu (Mactan) to Sayak Airport in Siargao. Flight time: 2 hours from Manila."},
+      {"mode": "ferry", "detail": "From Surigao City: Take a fast craft ferry to General Luna, Siargao — about 1.5 to 2 hours."},
+      {"mode": "bus", "detail": "From Butuan City: Take a bus to Surigao City (3-4 hours), then ferry to Siargao."}
+    ],
+    "reviews_list": [
+      {"name": "Miguel Soriano", "initials": "MS", "rating": 5, "comment": "Cloud 9 is the real deal. Even as a beginner, the surf lessons here are fantastic.", "date": "October 2024"},
+      {"name": "Trisha Lim", "initials": "TL", "rating": 5, "comment": "Sugba Lagoon blew my mind. The emerald green water is unreal.", "date": "September 2024"},
+      {"name": "Paulo Reyes", "initials": "PR", "rating": 4, "comment": "Great chill vibes on the island. Rent a motorbike and explore the beaches at your own pace.", "date": "August 2024"}
+    ],
+    "tips": [
+      "Rent a motorbike (₱300-500/day) to freely explore the island.",
+      "Sugba Lagoon requires a boat tour — book through accredited operators.",
+      "Bring enough cash; ATMs on the island can run out of funds.",
+      "The Cloud 9 boardwalk offers great views even for non-surfers.",
+      "Try Kermit restaurant's pizza and Shaka for healthy bowls — local favorites."
+    ],
+    "lat": 9.8482,
+    "lng": 126.0458,
+    "nearby": ["lake-sebu", "mayon", "bohol"]
+  },
+  {
+    "id": "batanes",
+    "name": "Batanes Islands",
+    "province": "Batanes",
+    "region": "Cagayan Valley",
+    "rating": 4.9,
+    "reviews": 1876,
+    "tags": ["Heritage", "Rolling Hills", "Culture", "Off-the-beaten-path"],
+    "badge": "Hidden Gem",
+    "gradient": "from-green-400 to-emerald-700",
+    "description": "The Philippines' northernmost province, Batanes is a world unto itself — with rolling hills reminiscent of Ireland, centuries-old Ivatan stone houses, dramatic cliffside views, and a culture shaped by typhoons and isolation. One of the most unique and Instagram-worthy destinations in Asia.",
+    "bestTime": "March to June (before typhoon season)",
+    "entryFee": "₱300 Batanes Conservation Fee",
+    "directions": [
+      {"mode": "plane", "detail": "Fly from Manila (NAIA Terminal 3) to Basco Airport — about 1.5 hours. Airlines: Philippine Airlines, Cebu Pacific. Book early as flights fill up fast!"},
+      {"mode": "bus", "detail": "No land route exists to Batanes from mainland Luzon — flying is the only option."},
+      {"mode": "ferry", "detail": "Occasional cargo vessels travel between Aparri (Cagayan) and Basco but are unreliable for tourism."}
+    ],
+    "reviews_list": [
+      {"name": "Isabel Cruz", "initials": "IC", "rating": 5, "comment": "Completely different from any Philippine island. Rolling hills, stone houses, no traffic. Pure magic.", "date": "May 2025"},
+      {"name": "Antonio Garcia", "initials": "AG", "rating": 5, "comment": "Vayang Rolling Hills at sunset is the most beautiful thing I have ever seen in the Philippines.", "date": "April 2025"},
+      {"name": "Nina Bautista", "initials": "NB", "rating": 5, "comment": "The Ivatans are the friendliest people. Stayed for 5 days and could have stayed for 5 weeks.", "date": "March 2025"}
+    ],
+    "tips": [
+      "Hire a local Batanes tour guide — they know the best spots and hidden viewpoints.",
+      "Rent a bike to explore Batan Island at your own pace.",
+      "Try the Ivatan traditional food: Uvud (taro stem), coconut crab, and flying fish.",
+      "Weather can change quickly — always check forecasts before heading out.",
+      "The Chanarian Lighthouse viewpoint offers one of the most dramatic scenes in the country."
+    ],
+    "lat": 20.4487,
+    "lng": 121.9702,
+    "nearby": ["vigan", "batad", "mayon"]
+  },
+  {
+    "id": "chocolate-hills",
+    "name": "Chocolate Hills",
+    "province": "Bohol",
+    "region": "Central Visayas",
+    "rating": 4.6,
+    "reviews": 4123,
+    "tags": ["Natural Wonder", "Heritage", "Family-friendly", "Views"],
+    "badge": "Popular",
+    "gradient": "from-amber-500 to-amber-800",
+    "description": "Over 1,200 perfectly cone-shaped hills spread across 50 square kilometers — the Chocolate Hills are Bohol's iconic geological wonder. Named for their resemblance to chocolate kisses when the grass turns brown in dry season, they are a National Geological Monument.",
+    "bestTime": "March to May (brown season) or December to February (green)",
+    "entryFee": "₱50 viewing deck fee",
+    "directions": [
+      {"mode": "plane", "detail": "Fly from Manila to Tagbilaran (Bohol-Panglao International Airport). Flight time: 1 hour 15 minutes."},
+      {"mode": "ferry", "detail": "Fast craft ferry from Cebu City (Pier 1) to Tagbilaran — 2 hours. OceanJet and SuperCat operate this route."},
+      {"mode": "bus", "detail": "From Tagbilaran: Rent a motorbike or take a bus to Carmen (40 km, about 1 hour) where the main viewing complex is located."}
+    ],
+    "reviews_list": [
+      {"name": "Gem Alcantara", "initials": "GA", "rating": 5, "comment": "Breathtaking! The panoramic view from the observation deck is incredible especially in dry season.", "date": "April 2025"},
+      {"name": "Derek Santos", "initials": "DS", "rating": 4, "comment": "The hills are impressive but the climb up the stairs can be tiring. Worth it for the views!", "date": "March 2025"},
+      {"name": "Claire Navarro", "initials": "CN", "rating": 5, "comment": "Pair this with a tarsier sanctuary visit and a Loboc River cruise for a perfect Bohol day!", "date": "February 2025"}
+    ],
+    "tips": [
+      "Visit at sunrise or sunset for the most dramatic lighting on the hills.",
+      "Combine with the Philippine Tarsier Sanctuary (15 minutes away) and Loboc River cruise.",
+      "Rent a scooter in Tagbilaran for a flexible self-guided Bohol tour.",
+      "The zip-line at Can-umantad Falls offers a thrilling way to see the landscape.",
+      "Book a tour package from Tagbilaran which includes Chocolate Hills + Panglao Beach."
+    ],
+    "lat": 9.9003,
+    "lng": 124.1692,
+    "nearby": ["panglao", "siargao", "cebu-oslob"]
+  },
+  {
+    "id": "cebu-oslob",
+    "name": "Oslob Whale Sharks",
+    "province": "Cebu",
+    "region": "Central Visayas",
+    "rating": 4.5,
+    "reviews": 3567,
+    "tags": ["Marine Life", "Snorkeling", "Adventure", "Wildlife"],
+    "badge": "Popular",
+    "gradient": "from-blue-400 to-indigo-600",
+    "description": "Oslob in southern Cebu is famous for its whale shark interaction site where you can snorkel alongside the ocean's gentle giants. The town also serves as gateway to Kawasan Falls — one of the most stunning multi-tiered waterfalls in the Philippines.",
+    "bestTime": "Year-round (whale sharks); November to May (calm seas)",
+    "entryFee": "₱1,000 snorkeling with whale sharks; ₱500 watching only",
+    "directions": [
+      {"mode": "plane", "detail": "Fly to Mactan-Cebu International Airport, then take a bus or van from South Bus Terminal to Oslob — about 3.5 hours."},
+      {"mode": "bus", "detail": "From Cebu City South Bus Terminal: Take a Ceres bus to Oslob — air-conditioned buses depart every 30 minutes. Journey: 3.5-4 hours."},
+      {"mode": "ferry", "detail": "From Dumaguete: Fast ferry to Santander (40 min), then tricycle/van to Oslob (30 min)."}
+    ],
+    "reviews_list": [
+      {"name": "Pam Reyes", "initials": "PR", "rating": 5, "comment": "Swimming with whale sharks is a once-in-a-lifetime experience! Follow the rules — no touching!", "date": "March 2025"},
+      {"name": "Kevin Tan", "initials": "KT", "rating": 4, "comment": "Amazing but book early — they start at 6am and stop by noon. Kawasan Falls nearby is also stunning.", "date": "February 2025"},
+      {"name": "Diana Lopez", "initials": "DL", "rating": 5, "comment": "Combine whale sharks with Kawasan Falls canyoneering for the ultimate Cebu adventure!", "date": "January 2025"}
+    ],
+    "tips": [
+      "Arrive before 6am for the best experience — fewer tourists and more active whale sharks.",
+      "No sunscreen is allowed in the water; wear a rash guard for sun protection.",
+      "Book Kawasan Falls canyoneering in advance — it gets very popular.",
+      "Do not touch or ride the whale sharks — it's illegal and unethical.",
+      "Bring your own snorkel gear for better fit; rentals are available but basic."
+    ],
+    "lat": 9.5167,
+    "lng": 123.4,
+    "nearby": ["chocolate-hills", "panglao", "vigan"]
+  },
+  {
+    "id": "batad",
+    "name": "Batad Rice Terraces",
+    "province": "Ifugao",
+    "region": "Cordillera Administrative Region",
+    "rating": 4.8,
+    "reviews": 1543,
+    "tags": ["UNESCO Heritage", "Trekking", "Culture", "Mountains"],
+    "badge": "Hidden Gem",
+    "gradient": "from-lime-400 to-green-700",
+    "description": "A UNESCO World Heritage Site, the Batad Rice Terraces are an extraordinary feat of ancient Ifugao engineering — hand-carved into the mountains over 2,000 years ago without modern tools. The amphitheater-shaped terraces of Batad are the most dramatic and well-preserved section.",
+    "bestTime": "April to May (golden harvest) and June to July (vivid green)",
+    "entryFee": "₱50 environmental fee; guide required (₱500-800)",
+    "directions": [
+      {"mode": "bus", "detail": "From Manila (Cubao or Pasay): Take an overnight bus to Banaue — 8 to 9 hours. Bus lines: Ohayami, GL Batangas."},
+      {"mode": "bus", "detail": "From Banaue town: Take a jeepney or hire a tricycle to Batad Junction (saddle point), then hike 45 minutes to the village."},
+      {"mode": "plane", "detail": "Fly to Cauayan (Isabela) or Tuguegarao, then take a bus to Banaue. Alternatively, fly to Manila and take a bus."}
+    ],
+    "reviews_list": [
+      {"name": "Rico Vargas", "initials": "RV", "rating": 5, "comment": "One of the most stunning landscapes I've seen anywhere in the world. The hike is totally worth it.", "date": "May 2025"},
+      {"name": "Maricris Domingo", "initials": "MD", "rating": 5, "comment": "Stay overnight in Batad — waking up in the terraces with morning mist is magical.", "date": "April 2025"},
+      {"name": "Jose Magbanua", "initials": "JM", "rating": 4, "comment": "Hire a local guide — they share the rich Ifugao culture and history of these living terraces.", "date": "March 2025"}
+    ],
+    "tips": [
+      "Stay overnight in a village homestay for the full immersive experience.",
+      "Wear proper hiking shoes — the trails are steep and slippery when wet.",
+      "Taban Tabo Falls at the base of the terraces is perfect for a refreshing dip.",
+      "Respect the Ifugao community — these terraces are still actively farmed.",
+      "Visit the Banaue Viewpoint and Hapao Terraces during your trip for full Ifugao coverage."
+    ],
+    "lat": 16.9028,
+    "lng": 121.0873,
+    "nearby": ["batanes", "vigan", "mayon"]
+  },
+  {
+    "id": "mayon",
+    "name": "Mayon Volcano",
+    "province": "Albay",
+    "region": "Bicol",
+    "rating": 4.7,
+    "reviews": 2876,
+    "tags": ["Volcano", "Adventure", "Photography", "Nature"],
+    "badge": "Iconic",
+    "gradient": "from-red-400 to-orange-600",
+    "description": "Mayon Volcano, with its near-perfect cone rising 2,462 meters, is the Philippines' most active and most photographed volcano. The surrounding Albay Gulf and rice fields create a dramatic landscape that is iconic in Philippine imagery. Lava tube spelunking and ATV rides add adventure.",
+    "bestTime": "December to May (clear skies for views)",
+    "entryFee": "Free to view; ATV rides from ₱600",
+    "directions": [
+      {"mode": "plane", "detail": "Fly from Manila (NAIA) to Legazpi City Airport — 1 hour. Airlines: Cebu Pacific, Philippine Airlines."},
+      {"mode": "bus", "detail": "From Manila: Take a bus from Pasay or Cubao to Legazpi City — 8 to 10 hours. Bus lines: Isarog, DLTB, Philtranco."},
+      {"mode": "bus", "detail": "From Legazpi City: Take a jeepney or tricycle to Cagsawa Ruins or Lignon Hill for the best Mayon views."}
+    ],
+    "reviews_list": [
+      {"name": "Bert Alcazar", "initials": "BA", "rating": 5, "comment": "Mayon at sunrise from Cagsawa Ruins with the old church in the foreground — photo of a lifetime!", "date": "January 2025"},
+      {"name": "Rowena Hidalgo", "initials": "RH", "rating": 5, "comment": "ATV riding around the slopes was thrilling. The lava field landscape is otherworldly.", "date": "December 2024"},
+      {"name": "Sam Torres", "initials": "ST", "rating": 4, "comment": "Beautiful even when clouds partially hide the cone. The Bicol bigg experience is also fantastic!", "date": "November 2024"}
+    ],
+    "tips": [
+      "Visit Cagsawa Ruins for the most iconic Mayon view with the sunken church tower.",
+      "Take an ATV tour around the lava fields — a unique and thrilling experience.",
+      "Lignon Hill Nature Park offers a 360-degree view of Mayon and Legazpi City.",
+      "Try Bicol Express, laing, and kinunot in Legazpi City — famous regional cuisine.",
+      "Check PHIVOLCS activity alerts before planning any trail climbing activities."
+    ],
+    "lat": 13.2575,
+    "lng": 123.6856,
+    "nearby": ["siargao", "batad", "lake-sebu"]
+  },
+  {
+    "id": "tubbataha",
+    "name": "Tubbataha Reef",
+    "province": "Palawan",
+    "region": "MIMAROPA",
+    "rating": 4.9,
+    "reviews": 876,
+    "tags": ["Diving", "Marine Life", "UNESCO Heritage", "Remote"],
+    "badge": "Hidden Gem",
+    "gradient": "from-cyan-500 to-blue-800",
+    "description": "A UNESCO World Heritage Site and one of the world's premier dive destinations, Tubbataha Reef Natural Park covers 97,030 hectares of pristine marine ecosystem in the Sulu Sea. Accessible only by liveaboard from April to June, it remains one of the most untouched reef systems on Earth.",
+    "bestTime": "April to June only (liveaboard season)",
+    "entryFee": "₱15,000 park fee for divers; ₱5,000 for snorkelers",
+    "directions": [
+      {"mode": "ferry", "detail": "Depart from Puerto Princesa City Port via liveaboard dive vessel — 11 hours overnight journey. Only accessible during April to June."},
+      {"mode": "plane", "detail": "Fly from Manila to Puerto Princesa, then board a liveaboard dive boat to Tubbataha Reef."},
+      {"mode": "bus", "detail": "No land access to Tubbataha — liveaboard is the only way to reach the reef."}
+    ],
+    "reviews_list": [
+      {"name": "Captain Diver", "initials": "CD", "rating": 5, "comment": "The best diving I've ever done — anywhere on Earth. Shark Wall is spectacular.", "date": "May 2025"},
+      {"name": "Elena Vasco", "initials": "EV", "rating": 5, "comment": "Manta rays, thresher sharks, whale sharks — saw it all in one trip. Utterly pristine.", "date": "May 2025"},
+      {"name": "Hugo Brand", "initials": "HB", "rating": 5, "comment": "Worth every peso. The reef walls are covered in hard and soft corals like a garden.", "date": "April 2025"}
+    ],
+    "tips": [
+      "Book liveaboard months in advance — the season is short and boats fill up fast.",
+      "Advanced Open Water certification is the minimum; Rescue Diver recommended.",
+      "The Sulu Sea can be rough — take seasickness medication if prone to motion sickness.",
+      "Bring a full camera kit — the marine life here is extraordinary.",
+      "The park ranger station on North Islet is an interesting stop between dive sites."
+    ],
+    "lat": 8.8722,
+    "lng": 119.9097,
+    "nearby": ["el-nido", "coron", "port-barton"]
+  },
+  {
+    "id": "mount-apo",
+    "name": "Mount Apo",
+    "province": "Davao del Sur / North Cotabato",
+    "region": "Davao Region / SOCCSKSARGEN",
+    "rating": 4.7,
+    "reviews": 1234,
+    "tags": ["Mountaineering", "Trekking", "Biodiversity", "Summit"],
+    "badge": "Off the beaten path",
+    "gradient": "from-stone-400 to-gray-700",
+    "description": "Mount Apo stands as the highest peak in the Philippines at 2,954 meters above sea level. An active volcano surrounded by lush tropical forests, geothermal springs, and an incredible diversity of endemic flora and fauna. Summiting Apo is the ultimate mountaineering achievement in the Philippines.",
+    "bestTime": "March to May (dry season, best summit conditions)",
+    "entryFee": "₱500-1,500 PAMB fee depending on trail; guide mandatory",
+    "directions": [
+      {"mode": "plane", "detail": "Fly from Manila (NAIA) to Francisco Bangoy International Airport in Davao City — 1.5 hours. Airlines: Cebu Pacific, Philippine Airlines, AirAsia."},
+      {"mode": "bus", "detail": "From Davao City: Take a bus or van to Kidapawan City (main jump-off point via Kidapawan trail) — about 2 hours."},
+      {"mode": "bus", "detail": "Alternative Kapatagan trail: From Davao City to Digos City, then to Kapatagan jump-off."}
+    ],
+    "reviews_list": [
+      {"name": "Gab Aquino", "initials": "GA", "rating": 5, "comment": "Three-day summit via Kidapawan trail was life-changing. The lake crater is breathtaking.", "date": "April 2025"},
+      {"name": "Tess Villar", "initials": "TV", "rating": 5, "comment": "Hardest climb I've done but the Philippine Eagle sighting made everything worth it!", "date": "March 2025"},
+      {"name": "Nico Daza", "initials": "ND", "rating": 4, "comment": "The geothermal area near the summit is fascinating. Train well before attempting this peak.", "date": "February 2025"}
+    ],
+    "tips": [
+      "Physical fitness training is essential — Apo is a challenging multi-day climb.",
+      "Register at PAMB (Protected Area Management Board) office before climbing.",
+      "Hire an experienced local guide — the trails can be confusing in foggy conditions.",
+      "Pack light but bring rain gear — weather on Apo changes rapidly.",
+      "Keep an eye out for the Philippine Eagle, Apo Sunbird, and pitcher plants along the trails."
+    ],
+    "lat": 6.9897,
+    "lng": 125.2703,
+    "nearby": ["lake-sebu", "siargao", "mayon"]
+  },
+  {
+    "id": "vigan",
+    "name": "Vigan Heritage City",
+    "province": "Ilocos Sur",
+    "region": "Ilocos Region",
+    "rating": 4.6,
+    "reviews": 3421,
+    "tags": ["Heritage", "Colonial", "Culture", "UNESCO"],
+    "badge": "Popular",
+    "gradient": "from-orange-400 to-amber-600",
+    "description": "Vigan is the best-preserved example of a planned Spanish colonial town in Asia, a UNESCO World Heritage Site since 1999. Its cobblestone Calle Crisologo is lined with 18th-century mansions and ancestral houses, bringing visitors back to Spanish colonial Philippines.",
+    "bestTime": "Year-round; festivals in January (Viva Vigan) and June (Pagoda Festival)",
+    "entryFee": "Free to explore; museum entry fees around ₱50-100",
+    "directions": [
+      {"mode": "bus", "detail": "From Manila (Cubao or Pasay): Take a bus to Vigan — 6 to 8 hours. Bus lines: Partas, Florida, Dominion, GV Florida."},
+      {"mode": "plane", "detail": "Fly from Manila to Laoag Airport (1 hour) then take a van/bus south to Vigan (45 minutes)."},
+      {"mode": "bus", "detail": "From Baguio: Bus to Vigan takes about 6 hours via Cervantes route."}
+    ],
+    "reviews_list": [
+      {"name": "Grace Valdez", "initials": "GV", "rating": 5, "comment": "Walking Calle Crisologo at night with the calesa (horse-drawn carriages) is absolutely magical.", "date": "January 2025"},
+      {"name": "Rex Ilagan", "initials": "RI", "rating": 5, "comment": "The architecture is stunning. Try the longganisa, empanada, and bagnet — Ilocano food is amazing!", "date": "December 2024"},
+      {"name": "Carla Simeon", "initials": "CS", "rating": 4, "comment": "Quaint and charming. The pottery making in Pagburnayan is a must-see craft demonstration.", "date": "November 2024"}
+    ],
+    "tips": [
+      "Hire a calesa (horse-drawn carriage) for the full colonial Vigan experience.",
+      "Calle Crisologo closes to vehicles in the evening — perfect for a romantic evening stroll.",
+      "Visit Pagburnayan Street to see traditional burnay pottery being made by hand.",
+      "Try Vigan longganisa, bagnet, empanada, and Okoy at the local market.",
+      "The Viva Vigan Festival in January transforms the streets with cultural performances."
+    ],
+    "lat": 17.5747,
+    "lng": 120.3869,
+    "nearby": ["batad", "batanes", "mayon"]
+  },
+  {
+    "id": "lake-sebu",
+    "name": "Lake Sebu",
+    "province": "South Cotabato",
+    "region": "SOCCSKSARGEN",
+    "rating": 4.5,
+    "reviews": 987,
+    "tags": ["Cultural", "Waterfalls", "Indigenous", "Eco-tourism"],
+    "badge": "Hidden Gem",
+    "gradient": "from-teal-300 to-green-600",
+    "description": "Lake Sebu is home to the T'boli people, one of the Philippines' most vibrant indigenous groups known for their intricate dream weaving — the T'nalak cloth woven from abaca fiber. The municipality features three interconnected lakes and the spectacular Seven Falls zip-line.",
+    "bestTime": "March to May; Helobung Festival in April",
+    "entryFee": "₱200 environmental fee; zip-line ₱200-600 per ride",
+    "directions": [
+      {"mode": "plane", "detail": "Fly from Manila to General Santos Airport (1.5 hours), then take a bus/van to Surallah (2 hours), then another van to Lake Sebu (1 hour)."},
+      {"mode": "bus", "detail": "From General Santos City: Take a bus to Surallah (1.5-2 hours), then hire a habal-habal motorcycle to Lake Sebu (45 minutes)."},
+      {"mode": "bus", "detail": "From Koronadal City: Bus to Surallah (1 hour) then van to Lake Sebu (1 hour)."}
+    ],
+    "reviews_list": [
+      {"name": "Leni Ponce", "initials": "LP", "rating": 5, "comment": "The zip-line over the Seven Falls is one of the most thrilling experiences in the Philippines!", "date": "April 2025"},
+      {"name": "Danny Chua", "initials": "DC", "rating": 5, "comment": "Watching the T'boli women weave T'nalak is fascinating. Buy directly from the weavers to support them.", "date": "March 2025"},
+      {"name": "Rosa Medina", "initials": "RM", "rating": 4, "comment": "The tilapia in Lake Sebu is the freshest and most delicious I've ever tasted.", "date": "February 2025"}
+    ],
+    "tips": [
+      "Take the zip-line over all three sections of the Seven Falls cascade.",
+      "Visit a T'boli weaving house and learn about the dream weaving tradition.",
+      "Tilapia from the lake is the local specialty — try it at any lakeside restaurant.",
+      "Rent a boat to explore the three interconnected lakes.",
+      "The Helobung Festival in April showcases T'boli music, dance, and crafts."
+    ],
+    "lat": 6.3167,
+    "lng": 124.75,
+    "nearby": ["mount-apo", "siargao", "mayon"]
+  }
+]

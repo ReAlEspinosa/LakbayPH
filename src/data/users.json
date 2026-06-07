@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "name": "Maria Gabriela Santos",
+    "initials": "MG",
+    "destinations_visited": 47,
+    "rank": "Hari ng Lakbay",
+    "rankColor": "gold",
+    "badges": ["Island Hopper", "Mountain Trekker", "Hidden Gem Hunter", "Festival Goer", "Coastal Explorer", "Road Warrior"],
+    "reviews_written": 38,
+    "bucket_list": 12
+  },
+  {
+    "id": 2,
+    "name": "Carlos Miguel Reyes",
+    "initials": "CR",
+    "destinations_visited": 32,
+    "rank": "Bayani ng Daan",
+    "rankColor": "green",
+    "badges": ["Island Hopper", "Mountain Trekker", "Hidden Gem Hunter", "Bayanihan Hero", "Foodie Wanderer"],
+    "reviews_written": 24,
+    "bucket_list": 18
+  },
+  {
+    "id": 3,
+    "name": "Ana Lucia Villanueva",
+    "initials": "AV",
+    "destinations_visited": 28,
+    "rank": "Bayani ng Daan",
+    "rankColor": "green",
+    "badges": ["Island Hopper", "Festival Goer", "Coastal Explorer", "Foodie Wanderer"],
+    "reviews_written": 19,
+    "bucket_list": 22
+  },
+  {
+    "id": 4,
+    "name": "Juan Paolo Mendoza",
+    "initials": "JP",
+    "destinations_visited": 15,
+    "rank": "Manlalakbay",
+    "rankColor": "blue",
+    "badges": ["Island Hopper", "Coastal Explorer", "Road Warrior"],
+    "reviews_written": 11,
+    "bucket_list": 30
+  },
+  {
+    "id": 5,
+    "name": "Theresa Mae Lim",
+    "initials": "TL",
+    "destinations_visited": 8,
+    "rank": "Lakbayer",
+    "rankColor": "gray",
+    "badges": ["Island Hopper", "Foodie Wanderer"],
+    "reviews_written": 6,
+    "bucket_list": 15
+  }
+]

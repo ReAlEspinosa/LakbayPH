@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"d:\\\\Lakbay-project\"; $job = Start-Job -ScriptBlock { cd \"d:\\\\Lakbay-project\"; npm run dev 2>&1 }; Start-Sleep -Seconds 5; Receive-Job $job)"
+    ]
+  }
+}
