@@ -39,10 +39,22 @@ the travel site (`/`, `/discover`, `/destination/:id`, `/planner`, `/bookings`,
 
 **Fitness storage is local-only.** IndexedDB database `LakbayFitness` v1
 (`src/fitness/db.js`) with three object stores — `workouts`, `exercises`,
-`bodyWeight`. 28 default exercises are seeded on first open. The in-progress
+`bodyWeight`. 36 default exercises are seeded on open, backfilled by id rather
+than only into an empty store, so a device seeded before the list grew still
+picks up new entries (`DB_VERSION` cannot do this — its upgrade already ran
+there). The in-progress
 workout draft lives in `localStorage` under `lakbay-fitness:active-workout`.
 There is no sync, no account, and no server copy: **if the user clears site
 data, the data is gone.**
+
+**Routines are templates, not records.** `src/fitness/routines.js` holds the
+built-in routines (currently one: `Beginner`, 6 lifts + 2 add-ons, 3 sets each).
+Starting one builds an active-workout draft with *empty* sets and a per-exercise
+`target` string shown as a hint; nothing is logged until the user types real
+numbers. Each entry repeats its own name and category instead of joining
+against the `exercises` store, so a routine still renders if that store is
+partial. Seeding the draft is what starts the routine, so it autosaves and
+restores like a hand-built session.
 
 **PWA:** `public/manifest.json` (`start_url: /fitness`, standalone, portrait)
 plus `public/sw.js`. The service worker is registered from `src/App.jsx` in

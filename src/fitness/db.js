@@ -30,6 +30,15 @@ const DEFAULT_EXERCISES = [
   { id: 'cycling', name: 'Cycling', category: 'Cardio', bodyPart: 'cardio' },
   { id: 'jump-rope', name: 'Jump Rope', category: 'Cardio', bodyPart: 'cardio' },
   { id: 'burpees', name: 'Burpees', category: 'Cardio', bodyPart: 'cardio' },
+  // Beginner routine (see routines.js).
+  { id: 'low-incline-db-press', name: 'Low Incline Dumbbell Press', category: 'Chest', bodyPart: 'chest' },
+  { id: 'goblet-squat', name: 'Goblet Squat', category: 'Legs', bodyPart: 'legs' },
+  { id: 'neutral-grip-pull-ups', name: 'Neutral Grip Pull-Ups', category: 'Back', bodyPart: 'back' },
+  { id: 'db-romanian-deadlift', name: 'Dumbbell Romanian Deadlift', category: 'Legs', bodyPart: 'legs' },
+  { id: 'cable-row', name: 'Cable Row', category: 'Back', bodyPart: 'back' },
+  { id: 'lateral-raise-superset', name: 'Lateral Raise Superset', category: 'Shoulders', bodyPart: 'shoulders' },
+  { id: 'dead-bug', name: 'Dead Bug', category: 'Core', bodyPart: 'core' },
+  { id: 'arms-superset', name: 'Arms Superset', category: 'Arms', bodyPart: 'arms' },
 ];
 
 function openDB() {
@@ -68,10 +77,10 @@ function openDB() {
   });
 }
 
-function countExercises(db) {
+function getExerciseIds(db) {
   return new Promise((resolve, reject) => {
     const tx = db.transaction('exercises', 'readonly');
-    const req = tx.objectStore('exercises').count();
+    const req = tx.objectStore('exercises').getAllKeys();
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
   });
@@ -80,15 +89,19 @@ function countExercises(db) {
 async function ensureDefaultExercises() {
   const db = await openDB();
   try {
-    const count = await countExercises(db);
-    if (count > 0) return;
-    // Seed in its own transaction. Awaiting between count() and put() inside a
-    // single transaction relies on the transaction still being active after a
+    // Backfill by id rather than skipping a non-empty store: a device seeded
+    // before this list grew would otherwise never see the new exercises, and
+    // a bumped DB_VERSION cannot help - the upgrade already ran there.
+    const existing = new Set(await getExerciseIds(db));
+    const missing = DEFAULT_EXERCISES.filter(ex => !existing.has(ex.id));
+    if (missing.length === 0) return;
+    // Seed in its own transaction. Awaiting between the read and the put()s
+    // inside a single transaction relies on it still being active after a
     // microtask checkpoint, which is fragile across browsers - so don't.
     await new Promise((resolve, reject) => {
       const tx = db.transaction('exercises', 'readwrite');
       const store = tx.objectStore('exercises');
-      for (const ex of DEFAULT_EXERCISES) store.put(ex);
+      for (const ex of missing) store.put(ex);
       tx.oncomplete = resolve;
       tx.onerror = () => reject(tx.error);
       tx.onabort = () => reject(tx.error);

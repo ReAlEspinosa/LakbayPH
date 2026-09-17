@@ -12,6 +12,18 @@ const SHOT = process.env.SHOT_DIR || 'test-screenshots';
  */
 let failed = 0;
 
+// The Beginner routine exactly as planned in src/fitness/routines.js.
+const ROUTINE_PLAN = [
+  ['Low Incline Dumbbell Press', '3 \u00d7 10-15'],
+  ['Goblet Squat', '3 \u00d7 10-15'],
+  ['Neutral Grip Pull-Ups', '3 \u00d7 5-8'],
+  ['Dumbbell Romanian Deadlift', '3 \u00d7 10-15'],
+  ['Cable Row', '3 \u00d7 10-15'],
+  ['Lateral Raise Superset', '3 \u00d7 10-20'],
+  ['Dead Bug', '3 \u00d7 5 per side'],
+  ['Arms Superset', '3 \u00d7 8-12'],
+];
+
 (async () => {
   require('fs').mkdirSync(process.env.SHOT_DIR || 'test-screenshots', { recursive: true });
   const launchOpts = process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {};
@@ -100,6 +112,42 @@ let failed = 0;
     await page.waitForSelector('text=Add at least one exercise', { timeout: 3000 });
   });
   await page.screenshot({ path: SHOT + '/07-empty-guard.png' });
+
+  await step('ROUTINE: Beginner seeds 8 exercises x 3 empty sets with targets', async () => {
+    await page.click('text=Cancel');
+    await page.waitForSelector('text=Routines', { timeout: 5000 });
+    await page.click('text=Beginner');
+    for (const [name, target] of ROUTINE_PLAN) {
+      const row = page.locator('div', { hasText: name }).last();
+      const txt = (await row.textContent()) || '';
+      if (!txt.includes(target)) throw new Error(name + ': expected "' + target + '", read "' + txt.trim() + '"');
+    }
+    await page.click('text=Start routine');
+    await page.waitForSelector('text=Arms Superset', { timeout: 5000 });
+    const setRows = await page.locator('button:has(svg.lucide-check)').count();
+    if (setRows !== 24) throw new Error('expected 24 set rows, got ' + setRows);
+    const prefilled = await page.locator('input[type="number"]').evaluateAll(els => els.filter(e => e.value !== '').length);
+    if (prefilled !== 0) throw new Error(prefilled + ' inputs pre-filled; a routine plans sets, it does not log them');
+    const body = await page.textContent('body');
+    if (!body.includes('target 5 per side')) throw new Error('missing the "5 per side" target hint');
+  });
+  await page.screenshot({ path: SHOT + '/08-routine.png', fullPage: true });
+
+  await step('ROUTINE: replacing an unfinished workout is confirmed first', async () => {
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.waitForSelector('text=Unfinished workout', { timeout: 8000 });
+    await page.click('text=Start routine');
+    await page.waitForSelector('text=Replace the unfinished workout?', { timeout: 3000 });
+    await page.click('text=Keep it');
+    await page.waitForTimeout(200);
+    if (!(await page.textContent('body')).includes('Unfinished workout')) throw new Error('draft lost after declining');
+    await page.click('text=Start routine');
+    await page.locator('div.fixed.inset-0 button:text-is("Start routine")').click();
+    await page.waitForSelector('text=Goblet Squat', { timeout: 5000 });
+    await page.click('text=Cancel');
+    await page.locator('button:text-is("Discard")').click();
+    await page.waitForSelector('text=Routines', { timeout: 5000 });
+  });
 
   await step('travel site still renders and links to Fitness', async () => {
     await page.goto(BASE + '/', { waitUntil: 'networkidle' });

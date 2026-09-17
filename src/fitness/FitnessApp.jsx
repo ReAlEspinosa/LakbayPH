@@ -9,6 +9,7 @@ import {
   deleteWorkout, saveBodyWeight, getBodyWeights, generateId, addCustomExercise,
   saveDraft, loadDraft, clearDraft
 } from './db';
+import { ROUTINES, buildRoutineDraft } from './routines';
 
 const CATEGORIES = ['All', 'Chest', 'Back', 'Shoulders', 'Arms', 'Legs', 'Core', 'Cardio'];
 
@@ -280,7 +281,50 @@ function Toast({ message, onDismiss }) {
   );
 }
 
-function DashboardView({ workouts, onStartWorkout, onViewWorkout }) {
+function RoutineCard({ routine, onStart }) {
+  const [open, setOpen] = useState(false);
+  const setCount = routine.exercises.reduce((n, ex) => n + ex.sets, 0);
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="flex items-center gap-3 p-4">
+        <div className="w-10 h-10 rounded-lg bg-palm/10 flex items-center justify-center text-palm shrink-0">
+          <Dumbbell size={20} />
+        </div>
+        <button onClick={() => setOpen(o => !o)} className="flex-1 min-w-0 text-left">
+          <div className="font-semibold text-gray-800 text-sm">{routine.name}</div>
+          <div className="text-xs text-gray-400 mt-0.5">
+            {routine.note} · {setCount} sets
+          </div>
+        </button>
+        <button onClick={() => onStart(routine)}
+          className="px-3 py-1.5 rounded-lg bg-ocean text-white text-xs font-semibold shrink-0 active:scale-95 transition-transform">
+          Start routine
+        </button>
+        <button onClick={() => setOpen(o => !o)}
+          aria-label={open ? 'Hide exercises' : 'Show exercises'}
+          className="p-1 text-gray-300 shrink-0">
+          <ChevronRight size={16} className={`transition-transform ${open ? 'rotate-90' : ''}`} />
+        </button>
+      </div>
+
+      {open && (
+        <div className="px-4 pb-4 -mt-1">
+          {routine.exercises.map((ex, i) => (
+            <div key={ex.exerciseId}
+              className={`flex items-baseline gap-2 py-1.5 text-sm ${i > 0 ? 'border-t border-gray-50' : ''}`}>
+              {ex.addOn && <span className="text-[10px] uppercase tracking-wide text-sunset font-semibold">Add-on</span>}
+              <span className="flex-1 min-w-0 text-gray-700 truncate">{ex.name}</span>
+              <span className="text-xs text-gray-400 tabular-nums shrink-0">{ex.sets} × {ex.target}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DashboardView({ workouts, onStartWorkout, onStartRoutine, onViewWorkout }) {
   const streak = getStreak(workouts);
   const thisWeek = workouts.filter(w => {
     const d = new Date(w.date);
@@ -319,6 +363,15 @@ function DashboardView({ workouts, onStartWorkout, onViewWorkout }) {
         <div className="bg-white rounded-xl p-3 text-center shadow-sm border border-gray-100">
           <div className="text-2xl font-bold text-palm">{totalVolThisWeek > 1000 ? `${(totalVolThisWeek / 1000).toFixed(1)}k` : totalVolThisWeek}</div>
           <div className="text-xs text-gray-500 mt-0.5">Volume (kg)</div>
+        </div>
+      </div>
+
+      <div className="mt-6">
+        <h2 className="text-lg font-semibold text-gray-800 mb-3">Routines</h2>
+        <div className="space-y-2">
+          {ROUTINES.map(r => (
+            <RoutineCard key={r.id} routine={r} onStart={onStartRoutine} />
+          ))}
         </div>
       </div>
 
@@ -529,6 +582,9 @@ function ActiveWorkoutView({ onFinish, onCancel, onError, exerciseList, draft })
             <div className="flex items-center gap-2">
               <span className="text-lg">{CATEGORY_EMOJI[ex.category] || '\u{1F3CB}'}</span>
               <h3 className="font-semibold text-gray-800 text-sm">{ex.name}</h3>
+              {ex.target && (
+                <span className="text-[11px] text-gray-400 tabular-nums shrink-0">target {ex.target}</span>
+              )}
             </div>
             <button onClick={() => removeExercise(exIdx)} className="text-gray-300 hover:text-red-400 p-1">
               <Trash2 size={16} />
@@ -882,6 +938,7 @@ export default function FitnessApp() {
   const [fatalError, setFatalError] = useState(null);
   const [toast, setToast] = useState(null);
   const [draft, setDraft] = useState(null);
+  const [pendingRoutine, setPendingRoutine] = useState(null);
 
   const loadData = useCallback(async () => {
     const [ws, exs] = await Promise.all([getWorkouts(), getExercises()]);
@@ -916,6 +973,21 @@ export default function FitnessApp() {
     } catch (err) {
       setToast(err?.message || 'Could not save that workout. It is still open - try again.');
     }
+  };
+
+  // Seeding the draft is what starts the routine: ActiveWorkoutView reads it
+  // on mount and autosaves from there, so the session survives a reload the
+  // same way a hand-built one does.
+  const startRoutine = (routine) => {
+    setPendingRoutine(null);
+    setDraft(buildRoutineDraft(routine));
+    setView('workout');
+  };
+
+  // A routine would overwrite an in-progress workout, which is never silent.
+  const handleStartRoutine = (routine) => {
+    if (draft && draft.exercises.length > 0) setPendingRoutine(routine);
+    else startRoutine(routine);
   };
 
   const handleCancelWorkout = () => {
@@ -1009,6 +1081,7 @@ export default function FitnessApp() {
           )}
           <DashboardView workouts={workouts}
             onStartWorkout={() => setView('workout')}
+            onStartRoutine={handleStartRoutine}
             onViewWorkout={handleViewWorkout} />
         </>
       )}
@@ -1021,6 +1094,28 @@ export default function FitnessApp() {
           onDelete={handleDeleteWorkout} />
       )}
       {view === 'stats' && <StatsView workouts={workouts} onError={setToast} />}
+
+      {pendingRoutine && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 animate-slide-up">
+            <h3 className="text-lg font-semibold text-gray-800">Replace the unfinished workout?</h3>
+            <p className="text-sm text-gray-500 mt-2">
+              Starting {pendingRoutine.name} discards the {draft?.exercises?.length || 0} exercise
+              {draft?.exercises?.length === 1 ? '' : 's'} saved on this device. This cannot be undone.
+            </p>
+            <div className="flex gap-3 mt-6">
+              <button onClick={() => setPendingRoutine(null)}
+                className="flex-1 py-3 rounded-xl font-semibold bg-gray-100 text-gray-700">
+                Keep it
+              </button>
+              <button onClick={() => startRoutine(pendingRoutine)}
+                className="flex-1 py-3 rounded-xl font-semibold bg-red-500 text-white">
+                Start routine
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Toast message={toast} onDismiss={() => setToast(null)} />
 
