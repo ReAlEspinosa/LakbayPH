@@ -64,6 +64,16 @@ production builds only.
 catch-all rewrite that client-side routing requires — Vercel's Vite preset does
 not add one, and without it every deep link, `/fitness` included, returns 404.
 
+Its own Vercel project is `lakbayph-beta` (team `lakbay-ph`, project id
+`prj_aMdhjLRCoj1TMgrQNTQMNSFvKinW`), created 2026-09-17 for this repo so that
+invariant 7 holds. Two things about it are **UNVERIFIED**: whether its Git link
+to `ReAlEspinosa/LakbayPH` is live, and whether pushes build — the API token in
+use is scoped to the `lakbay-ph` project and gets 404/403 on every other
+project, so neither could be read back. Confirm in the dashboard. A project
+named `lakbayph` also already exists in an account this token cannot read
+(create returns 409, reads 403); if it is linked to this repo, expect two
+builds per push until one is removed.
+
 **Verification gate:** `npm run build`, then `npm run preview` and
 `npm run test:e2e` — the latter drives the real fitness flow in Chromium
 (seeding, logging a set, the rest timer, draft restore across a reload, the
