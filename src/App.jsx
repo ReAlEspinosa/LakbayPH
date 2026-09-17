@@ -18,7 +18,9 @@ export default function App() {
   const isFitness = location.pathname === '/fitness'
 
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
+    // Dev builds serve modules unhashed; a cached service worker there hands
+    // back stale bundles and looks like a phantom bug.
+    if (import.meta.env.PROD && 'serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch(() => {})
     }
   }, [])

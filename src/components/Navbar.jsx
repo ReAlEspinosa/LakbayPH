@@ -8,6 +8,7 @@ const navLinks = [
   { label: 'Book', path: '/bookings' },
   { label: 'Community', path: '/community' },
   { label: 'Roadside', path: '/roadside' },
+  { label: 'Fitness', path: '/fitness' },
 ]
 
 const notifications = [

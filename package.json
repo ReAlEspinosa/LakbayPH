@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --port 5174 --strictPort",
+    "test:e2e": "node fitness-e2e.cjs"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",

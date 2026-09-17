@@ -34,8 +34,19 @@ const DEFAULT_EXERCISES = [
 
 function openDB() {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
-    request.onerror = () => reject(request.error);
+    if (typeof indexedDB === 'undefined' || indexedDB === null) {
+      reject(new Error('This browser has no IndexedDB. Private browsing may be blocking storage.'));
+      return;
+    }
+    let request;
+    try {
+      request = indexedDB.open(DB_NAME, DB_VERSION);
+    } catch (err) {
+      reject(err);
+      return;
+    }
+    request.onerror = () => reject(request.error || new Error('Could not open the local database.'));
+    request.onblocked = () => reject(new Error('Another open tab is blocking a database upgrade. Close it and reload.'));
     request.onsuccess = () => resolve(request.result);
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
@@ -57,25 +68,34 @@ function openDB() {
   });
 }
 
-async function ensureDefaultExercises() {
-  const db = await openDB();
-  const tx = db.transaction('exercises', 'readwrite');
-  const store = tx.objectStore('exercises');
-  const count = await new Promise((resolve, reject) => {
-    const req = store.count();
+function countExercises(db) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction('exercises', 'readonly');
+    const req = tx.objectStore('exercises').count();
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
   });
-  if (count === 0) {
-    for (const ex of DEFAULT_EXERCISES) {
-      store.put(ex);
-    }
+}
+
+async function ensureDefaultExercises() {
+  const db = await openDB();
+  try {
+    const count = await countExercises(db);
+    if (count > 0) return;
+    // Seed in its own transaction. Awaiting between count() and put() inside a
+    // single transaction relies on the transaction still being active after a
+    // microtask checkpoint, which is fragile across browsers - so don't.
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction('exercises', 'readwrite');
+      const store = tx.objectStore('exercises');
+      for (const ex of DEFAULT_EXERCISES) store.put(ex);
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error);
+    });
+  } finally {
+    db.close();
   }
-  await new Promise((resolve, reject) => {
-    tx.oncomplete = resolve;
-    tx.onerror = () => reject(tx.error);
-  });
-  db.close();
 }
 
 export async function initDB() {
@@ -172,4 +192,43 @@ export async function getBodyWeights() {
 
 export function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+/* Active-workout draft.
+ *
+ * Kept in localStorage rather than IndexedDB on purpose: it is written on
+ * every keystroke and needs to survive the tab being evicted while the phone
+ * is locked mid-set, so a synchronous write is the right trade. Storage can
+ * throw (Safari private browsing, quota), and a failed draft save must never
+ * take the workout down with it.
+ */
+const DRAFT_KEY = 'lakbay-fitness:active-workout';
+
+export function saveDraft(draft) {
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function loadDraft() {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    const draft = JSON.parse(raw);
+    if (!draft || !Array.isArray(draft.exercises)) return null;
+    return draft;
+  } catch {
+    return null;
+  }
+}
+
+export function clearDraft() {
+  try {
+    localStorage.removeItem(DRAFT_KEY);
+  } catch {
+    /* nothing to do - an undeletable draft is harmless */
+  }
 }

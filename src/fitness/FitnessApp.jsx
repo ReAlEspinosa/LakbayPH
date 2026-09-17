@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
-  Dumbbell, Plus, Play, Square, Clock, ChevronLeft, Trash2,
-  Check, Calendar, TrendingUp, Home, ListChecks, BarChart3,
-  X, Timer, RotateCcw, ChevronRight, Weight, Edit3, Save
+  Dumbbell, Plus, Play, Clock, ChevronLeft, Trash2,
+  Check, Calendar, Home, BarChart3,
+  X, Timer, RotateCcw, ChevronRight, Save, AlertTriangle
 } from 'lucide-react';
 import {
   initDB, getExercises, saveWorkout, getWorkouts, getWorkout,
-  deleteWorkout, saveBodyWeight, getBodyWeights, generateId, addCustomExercise
+  deleteWorkout, saveBodyWeight, getBodyWeights, generateId, addCustomExercise,
+  saveDraft, loadDraft, clearDraft
 } from './db';
 
 const CATEGORIES = ['All', 'Chest', 'Back', 'Shoulders', 'Arms', 'Legs', 'Core', 'Cardio'];
@@ -83,23 +84,60 @@ function getStreak(workouts) {
 }
 
 function RestTimer({ onClose }) {
+  const [duration, setDuration] = useState(90);
   const [time, setTime] = useState(90);
   const [running, setRunning] = useState(true);
-  const intervalRef = useRef(null);
+  const deadlineRef = useRef(Date.now() + 90 * 1000);
+  const firedRef = useRef(false);
 
-  useEffect(() => {
-    if (running && time > 0) {
-      intervalRef.current = setInterval(() => setTime(t => t - 1), 1000);
-    }
-    return () => clearInterval(intervalRef.current);
-  }, [running, time]);
+  const start = useCallback((seconds) => {
+    firedRef.current = false;
+    deadlineRef.current = Date.now() + seconds * 1000;
+    setDuration(seconds);
+    setTime(seconds);
+    setRunning(true);
+  }, []);
 
+  // Tick against a wall-clock deadline. A plain setInterval countdown drifts,
+  // and browsers throttle timers hard once the screen locks or the tab is
+  // backgrounded - which is exactly when a rest timer is running.
   useEffect(() => {
-    if (time === 0 && running) {
+    if (!running) return undefined;
+    const tick = () => {
+      const remaining = Math.max(0, Math.round((deadlineRef.current - Date.now()) / 1000));
+      setTime(remaining);
+      if (remaining === 0) {
+        setRunning(false);
+        if (!firedRef.current) {
+          firedRef.current = true;
+          try { navigator.vibrate?.(300); } catch { /* unsupported - not worth surfacing */ }
+        }
+      }
+    };
+    tick();
+    const id = setInterval(tick, 250);
+    return () => clearInterval(id);
+  }, [running]);
+
+  // Resync the moment the tab comes back, so a throttled timer isn't stale.
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === 'visible' && running) {
+        setTime(Math.max(0, Math.round((deadlineRef.current - Date.now()) / 1000)));
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [running]);
+
+  const toggleRunning = () => {
+    if (running) {
       setRunning(false);
-      try { navigator.vibrate?.(300); } catch {}
+    } else {
+      deadlineRef.current = Date.now() + time * 1000;
+      setRunning(true);
     }
-  }, [time, running]);
+  };
 
   const presets = [30, 60, 90, 120, 180];
 
@@ -120,18 +158,18 @@ function RestTimer({ onClose }) {
         </div>
         <div className="flex gap-2 justify-center mb-6">
           {presets.map(p => (
-            <button key={p} onClick={() => { setTime(p); setRunning(true); }}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${time === p && running ? 'bg-ocean text-white' : 'bg-gray-100 text-gray-600'}`}>
+            <button key={p} onClick={() => start(p)}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${duration === p ? 'bg-ocean text-white' : 'bg-gray-100 text-gray-600'}`}>
               {p}s
             </button>
           ))}
         </div>
         <div className="flex gap-3">
-          <button onClick={() => setRunning(!running)}
-            className="flex-1 py-3 rounded-xl font-semibold bg-ocean text-white">
+          <button onClick={toggleRunning} disabled={time === 0}
+            className="flex-1 py-3 rounded-xl font-semibold bg-ocean text-white disabled:opacity-40">
             {running ? 'Pause' : 'Resume'}
           </button>
-          <button onClick={() => { setTime(90); setRunning(true); }}
+          <button onClick={() => start(duration)} aria-label="Restart timer"
             className="p-3 rounded-xl bg-gray-100 text-gray-600">
             <RotateCcw size={20} />
           </button>
@@ -227,6 +265,21 @@ function ExercisePicker({ exercises, onSelect, onClose, onAddCustom }) {
   );
 }
 
+function Toast({ message, onDismiss }) {
+  if (!message) return null;
+  return (
+    <div className="fixed bottom-24 left-4 right-4 z-50 mx-auto max-w-sm">
+      <div className="bg-gray-900 text-white rounded-xl px-4 py-3 shadow-lg flex items-start gap-3">
+        <AlertTriangle size={16} className="shrink-0 mt-0.5 text-sand" />
+        <p className="text-sm flex-1">{message}</p>
+        <button onClick={onDismiss} aria-label="Dismiss" className="shrink-0 text-gray-400">
+          <X size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function DashboardView({ workouts, onStartWorkout, onViewWorkout }) {
   const streak = getStreak(workouts);
   const thisWeek = workouts.filter(w => {
@@ -306,22 +359,33 @@ function DashboardView({ workouts, onStartWorkout, onViewWorkout }) {
   );
 }
 
-function ActiveWorkoutView({ onFinish, onCancel, exerciseList }) {
-  const [exercises, setExercises] = useState([]);
+function ActiveWorkoutView({ onFinish, onCancel, onError, exerciseList, draft }) {
+  const [exercises, setExercises] = useState(() => draft?.exercises ?? []);
   const [showPicker, setShowPicker] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const [workoutName, setWorkoutName] = useState('');
+  const [workoutName, setWorkoutName] = useState(() => draft?.name ?? '');
   const [allExercises, setAllExercises] = useState(exerciseList);
-  const startTime = useRef(Date.now());
+  const [confirmCancel, setConfirmCancel] = useState(false);
+  // Resuming a draft keeps its original start time so the duration stays honest.
+  const startTime = useRef(draft?.startedAt ?? Date.now());
   const timerRef = useRef(null);
 
+  // Derive elapsed time from the start timestamp rather than counting ticks:
+  // setInterval is throttled while the screen is locked, and a workout timer
+  // that silently loses ten minutes is worse than no timer.
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setElapsed(Math.floor((Date.now() - startTime.current) / 1000));
-    }, 1000);
+    const tick = () => setElapsed(Math.max(0, Math.floor((Date.now() - startTime.current) / 1000)));
+    tick();
+    timerRef.current = setInterval(tick, 1000);
     return () => clearInterval(timerRef.current);
   }, []);
+
+  // Autosave the in-progress workout. Mobile browsers evict backgrounded tabs
+  // without warning; without this, locking the phone mid-set loses the session.
+  useEffect(() => {
+    saveDraft({ name: workoutName, exercises, startedAt: startTime.current });
+  }, [workoutName, exercises]);
 
   const addExercise = (ex) => {
     setExercises(prev => [...prev, {
@@ -334,9 +398,13 @@ function ActiveWorkoutView({ onFinish, onCancel, exerciseList }) {
   };
 
   const handleAddCustom = async (ex) => {
-    await addCustomExercise(ex);
-    setAllExercises(prev => [...prev, ex]);
-    addExercise(ex);
+    try {
+      await addCustomExercise(ex);
+      setAllExercises(prev => [...prev, ex]);
+      addExercise(ex);
+    } catch (err) {
+      onError(err?.message || 'Could not save that custom exercise.');
+    }
   };
 
   const addSet = (exIdx) => {
@@ -389,7 +457,24 @@ function ActiveWorkoutView({ onFinish, onCancel, exerciseList }) {
     });
   };
 
+  const hasWork = exercises.length > 0;
+
+  const requestCancel = () => {
+    if (hasWork) setConfirmCancel(true);
+    else discard();
+  };
+
+  const discard = () => {
+    clearInterval(timerRef.current);
+    clearDraft();
+    onCancel();
+  };
+
   const handleFinish = () => {
+    if (!hasWork) {
+      onError('Add at least one exercise before finishing.');
+      return;
+    }
     clearInterval(timerRef.current);
     const workout = {
       id: generateId(),
@@ -416,7 +501,7 @@ function ActiveWorkoutView({ onFinish, onCancel, exerciseList }) {
     <div className="pb-6 px-4 min-h-screen" style={{ background: 'linear-gradient(180deg, #f0f7fa 0%, #f9f7f3 30%)' }}>
       <div className="sticky top-0 z-30 pt-4 pb-3 -mx-4 px-4" style={{ background: 'linear-gradient(180deg, #f0f7fa 0%, #f0f7fa 80%, transparent)' }}>
         <div className="flex items-center justify-between">
-          <button onClick={onCancel} className="text-gray-500 text-sm font-medium">Cancel</button>
+          <button onClick={requestCancel} className="text-gray-500 text-sm font-medium">Cancel</button>
           <div className="flex items-center gap-2 text-ocean font-semibold">
             <Clock size={16} />
             <span className="tabular-nums">{formatDuration(elapsed)}</span>
@@ -495,6 +580,28 @@ function ActiveWorkoutView({ onFinish, onCancel, exerciseList }) {
           onClose={() => setShowPicker(false)} onAddCustom={handleAddCustom} />
       )}
       {showTimer && <RestTimer onClose={() => setShowTimer(false)} />}
+
+      {confirmCancel && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 animate-slide-up">
+            <h3 className="text-lg font-semibold text-gray-800">Discard this workout?</h3>
+            <p className="text-sm text-gray-500 mt-2">
+              {exercises.length} exercise{exercises.length === 1 ? '' : 's'} and {completedSets} completed
+              set{completedSets === 1 ? '' : 's'} will be lost. This cannot be undone.
+            </p>
+            <div className="flex gap-3 mt-6">
+              <button onClick={() => setConfirmCancel(false)}
+                className="flex-1 py-3 rounded-xl font-semibold bg-gray-100 text-gray-700">
+                Keep going
+              </button>
+              <button onClick={discard}
+                className="flex-1 py-3 rounded-xl font-semibold bg-red-500 text-white">
+                Discard
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -624,24 +731,32 @@ function HistoryView({ workouts, onViewWorkout }) {
   );
 }
 
-function StatsView({ workouts }) {
+function StatsView({ workouts, onError }) {
   const [bodyWeights, setBodyWeights] = useState([]);
   const [newWeight, setNewWeight] = useState('');
   const [showWeightInput, setShowWeightInput] = useState(false);
 
-  useEffect(() => { getBodyWeights().then(setBodyWeights); }, []);
+  useEffect(() => {
+    getBodyWeights()
+      .then(setBodyWeights)
+      .catch((err) => onError(err?.message || 'Could not load body weight history.'));
+  }, [onError]);
 
   const saveWeight = async () => {
-    if (!newWeight) return;
-    const entry = {
-      id: generateId(),
-      date: new Date().toISOString(),
-      weight: parseFloat(newWeight)
-    };
-    await saveBodyWeight(entry);
-    setBodyWeights(prev => [...prev, entry]);
-    setNewWeight('');
-    setShowWeightInput(false);
+    const weight = parseFloat(newWeight);
+    if (!Number.isFinite(weight) || weight <= 0) {
+      onError('Enter a body weight greater than zero.');
+      return;
+    }
+    const entry = { id: generateId(), date: new Date().toISOString(), weight };
+    try {
+      await saveBodyWeight(entry);
+      setBodyWeights(prev => [...prev, entry]);
+      setNewWeight('');
+      setShowWeightInput(false);
+    } catch (err) {
+      onError(err?.message || 'Could not save that weight.');
+    }
   };
 
   const totalWorkouts = workouts.length;
@@ -764,6 +879,9 @@ export default function FitnessApp() {
   const [exercises, setExercises] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [ready, setReady] = useState(false);
+  const [fatalError, setFatalError] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [draft, setDraft] = useState(null);
 
   const loadData = useCallback(async () => {
     const [ws, exs] = await Promise.all([getWorkouts(), getExercises()]);
@@ -771,27 +889,73 @@ export default function FitnessApp() {
     setExercises(exs);
   }, []);
 
-  useEffect(() => {
-    initDB().then(loadData).then(() => setReady(true));
+  const init = useCallback(() => {
+    setFatalError(null);
+    initDB()
+      .then(loadData)
+      .then(() => {
+        setDraft(loadDraft());
+        setReady(true);
+      })
+      .catch((err) => {
+        // Storage can be unavailable outright (private browsing, blocked
+        // site data). Say so instead of spinning on "Loading..." forever.
+        setFatalError(err?.message || 'Could not open local storage on this device.');
+      });
   }, [loadData]);
 
+  useEffect(init, [init]);
+
   const handleFinishWorkout = async (workout) => {
-    await saveWorkout(workout);
-    await loadData();
+    try {
+      await saveWorkout(workout);
+      clearDraft();
+      setDraft(null);
+      await loadData();
+      setView('dashboard');
+    } catch (err) {
+      setToast(err?.message || 'Could not save that workout. It is still open - try again.');
+    }
+  };
+
+  const handleCancelWorkout = () => {
+    setDraft(null);
     setView('dashboard');
   };
 
   const handleDeleteWorkout = async (id) => {
-    await deleteWorkout(id);
-    await loadData();
-    setView('history');
-    setSelectedWorkout(null);
+    try {
+      await deleteWorkout(id);
+      await loadData();
+      setView('history');
+      setSelectedWorkout(null);
+    } catch (err) {
+      setToast(err?.message || 'Could not delete that workout.');
+    }
   };
 
   const handleViewWorkout = (id) => {
     setSelectedWorkout(id);
     setView('detail');
   };
+
+  if (fatalError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6" style={{ background: '#f9f7f3' }}>
+        <div className="text-center max-w-sm">
+          <AlertTriangle size={40} className="mx-auto text-sunset" />
+          <h1 className="text-lg font-semibold text-gray-800 mt-3">Storage unavailable</h1>
+          <p className="text-sm text-gray-500 mt-2">{fatalError}</p>
+          <p className="text-xs text-gray-400 mt-3">
+            This app keeps everything on your device. Private browsing or blocked site data will stop it working.
+          </p>
+          <button onClick={init} className="mt-5 px-5 py-2.5 rounded-xl bg-ocean text-white text-sm font-semibold">
+            Try again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (!ready) {
     return (
@@ -806,20 +970,47 @@ export default function FitnessApp() {
 
   if (view === 'workout') {
     return (
-      <ActiveWorkoutView
-        exerciseList={exercises}
-        onFinish={handleFinishWorkout}
-        onCancel={() => setView('dashboard')}
-      />
+      <>
+        <ActiveWorkoutView
+          exerciseList={exercises}
+          draft={draft}
+          onFinish={handleFinishWorkout}
+          onCancel={handleCancelWorkout}
+          onError={setToast}
+        />
+        <Toast message={toast} onDismiss={() => setToast(null)} />
+      </>
     );
   }
 
   return (
     <div className="min-h-screen" style={{ background: '#f9f7f3' }}>
       {view === 'dashboard' && (
-        <DashboardView workouts={workouts}
-          onStartWorkout={() => setView('workout')}
-          onViewWorkout={handleViewWorkout} />
+        <>
+          {draft && draft.exercises.length > 0 && (
+            <div className="mx-4 mt-4 p-3 rounded-xl bg-sunset/10 border border-sunset/30 flex items-center gap-3">
+              <Dumbbell size={18} className="text-sunset shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-800">Unfinished workout</p>
+                <p className="text-xs text-gray-500">
+                  {draft.exercises.length} exercise{draft.exercises.length === 1 ? '' : 's'} saved on this device
+                </p>
+              </div>
+              <button onClick={() => setView('workout')}
+                className="px-3 py-1.5 rounded-lg bg-sunset text-white text-xs font-semibold shrink-0">
+                Resume
+              </button>
+              <button onClick={() => { clearDraft(); setDraft(null); }}
+                aria-label="Discard unfinished workout"
+                className="p-1 text-gray-400 shrink-0">
+                <X size={16} />
+              </button>
+            </div>
+          )}
+          <DashboardView workouts={workouts}
+            onStartWorkout={() => setView('workout')}
+            onViewWorkout={handleViewWorkout} />
+        </>
       )}
       {view === 'history' && (
         <HistoryView workouts={workouts} onViewWorkout={handleViewWorkout} />
@@ -829,7 +1020,9 @@ export default function FitnessApp() {
           onBack={() => { setView('history'); setSelectedWorkout(null); }}
           onDelete={handleDeleteWorkout} />
       )}
-      {view === 'stats' && <StatsView workouts={workouts} />}
+      {view === 'stats' && <StatsView workouts={workouts} onError={setToast} />}
+
+      <Toast message={toast} onDismiss={() => setToast(null)} />
 
       {view !== 'workout' && (
         <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 pb-[env(safe-area-inset-bottom)] z-40">
